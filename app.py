@@ -18,7 +18,7 @@ import random
 import re
 import sqlite3
 import wave
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 import numpy as np
@@ -851,7 +851,7 @@ with tab_gen:
             if confirm and st.button(
                 t("Affix the Royal Seal", "Mark as sent"), type="secondary"
             ):
-                now = datetime.utcnow().isoformat()
+                now = datetime.now(timezone.utc).isoformat()
                 conn.executemany(
                     "INSERT OR REPLACE INTO sent (uuid, sent_at) VALUES (?, ?)",
                     [(u, now) for u in result["uuid"].tolist()],
